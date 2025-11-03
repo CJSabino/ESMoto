@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Renatinho Motos</title>
+  <meta name="descricao" content="Renatinho Motos - Sua próxima moto está aqui" />
+  <link rel='stylesheet' type='text/css' href='./estilo.css'>
+</head>
+
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <a href="./home.html">
+        <img src="logorenato.jpg" width="56" height="56" style="border-radius: 8px; object-fit: cover"
+          alt="Logo Renatinho Motos" /></a>
+        <div>
+          <div style="font-weight: 800; font-size: 18px">Renatinho Motos</div>
+          <div style="
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.6);
+                margin-top: 2px;
+              ">
+            Ourinhos · Compra e venda de motos
+          </div>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="estoque.php">Estoque</a></li>
+          <li><a href="./empresa.html">Empresa</a></li>
+        </ul>
+      </nav>
+      <a href="https://wa.me/5514998920284?text=Olá! Gostaria de mais informações." class="cta">Fale conosco</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1>Encontre a sua próxima moto com quem entende.</h1>
+        <p>
+          Renatinho Motos — ofertas, financiamento e avaliação na hora.
+          Estoque atualizado diariamente com as melhores opções para você
+          rodar com confiança.
+        </p>
+        <div class="filter-button">
+          <a href="estoque.html" class="btn-filter">Filtrar motos</a>
+        </div>
+
+        <div style="
+              display: flex;
+              gap: 12px;
+              margin-top: 18px;
+              align-items: center;
+            ">
+          <div style="
+                padding: 10px;
+                background: rgba(14, 20, 40, 0.04);
+                border-radius: 10px;
+              ">
+            <strong>Financiamento</strong><br /><small style="color: var(--muted)">Aprovação em 24h</small>
+          </div>
+          <div style="
+                padding: 10px;
+                background: rgba(14, 20, 40, 0.04);
+                border-radius: 10px;
+              ">
+            <strong>Avaliação</strong><br /><small style="color: var(--muted)">Valor justo pelo seu usado</small>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <img src="cbr650f.png" alt="moto destaque" />
+        <div style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            ">
+          <div style="padding-top: 8px">
+            <div style="font-weight: 700">Honda CBR 650F</div>
+            <div class="price">R$ 27.900</div>
+          </div>
+          <a class="btn-buy" href="#">Ver anúncio</a>
+        </div>
+      </aside>
+    </section>
+
+    <section id="estoque" class="section">
+      <h2 style="margin-bottom: 12px">Destaques do estoque</h2>
+      <div class="grid">
+        <article class="card">
+          <img src="cbr650f.png" alt="Honda CG" />
+          <h3>Honda CG 125 - 2019</h3>
+          <div class="meta">
+            <small>12.000 km · Ourinhos</small><strong>R$ 8.900</strong>
+          </div>
+          <a class="btn-buy" href="#">Ver anúncio</a>
+        </article>
+
+        <article class="card">
+          <img src="cbr650f.png" alt="Yamaha FZ" />
+          <h3>Yamaha Fazer - 2018</h3>
+          <div class="meta">
+            <small>18.500 km · Ourinhos</small><strong>R$ 11.900</strong>
+          </div>
+          <a class="btn-buy" href="#">Ver anúncio</a>
+        </article>
+
+        <article class="card">
+          <img src="cbr650f.png" alt="Honda CB" />
+          <h3>Honda CB 500F - 2020</h3>
+          <div class="meta">
+            <small>8.200 km · Ourinhos</small><strong>R$ 27.900</strong>
+          </div>
+          <a class="btn-buy" href="#">Ver anúncio</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Popup quando clicka ===== -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Honda CBR 650F - 2020</h2>
+        <img src="cbr650f.png" alt="Honda CBR 650F" style="width: 100%; border-radius: 8px; margin: 12px 0" />
+        <p><strong>Preço:</strong> R$ 27.900</p>
+        <p><strong>Quilometragem:</strong> 8.200 km</p>
+        <p><strong>Localização:</strong> Ourinhos - SP</p>
+        <p><strong>Ano:</strong>2020</p>
+        <a href="https://wa.me/5514998920284?text=Olá! Tenho interesse na CBR 650F." class="btn-whatsapp"
+          target="_blank">Chamar no WhatsApp</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Rodapé em progresso! ↓ -->
+  <footer class="">
+    <div style="flex-wrap: wrap; display: flex;">
+    <div class="rodape">
+        <div style="font-weight: 500; font-size: 18px;">Nosso Endereço
+        <p style="font-size: 14px; color: rgba(255, 255, 255, 0.6); margin-top: 2px;">
+          Rua Abc, 123 - São Paulo - SP<br>
+          Telefone(12) 34567-8900<br>
+          Email: contato@motos.com.br<br><br><br>
+        </p>
+      </div>
+    </div>
+    <div style="width: 50%; align-items: left; display: flex; flex-direction: column; ">
+      <nav">
+        <ul>
+          <li><a href="./empresa.html" style="font-weight: 100;">Sobre Nos</a></li>
+        </ul>
+      </nav>
+      <nav">
+        <ul>
+          <li><a href="#" style="font-weight: 100;">Entre em Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div style="justify-content: space-between; align-items: center; gap: 12px; width: 100%;">
+      <hr width="equale" size="1" color="white">
+        <small>© 2025 Renatinho Motos — Todos os direitos reservados</small>
+        <div style="display: flex; gap: 12px">
+          <a href="#">Política de privacidade</a>
+          <a href="#">Termos</a>
+        </div>
+    </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Modal logic =====
+    const modal = document.getElementById("modal");
+    const btns = document.querySelectorAll(".btn-buy");
+    const span = document.querySelector(".close");
+
+    btns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault(); // impede o link normal
+        modal.style.display = "block";
+      });
+    });
+
+    span.onclick = () => (modal.style.display = "none");
+    window.onclick = (e) => {
+      if (e.target == modal) modal.style.display = "none";
+    };
+  </script>
+</body>
+
+</html>
