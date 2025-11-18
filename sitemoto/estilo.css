@@ -241,18 +241,6 @@ nav a {
     box-sizing: border-box;
 }
 
-.btn-adicionar {
-    display: inline-block;
-    padding: 12px 20px;
-    background-color: #060b22;
-    color: white;
-    font-weight: 700;
-    border-radius: 8px;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-}
-
 /* ===== Home ===== */
 .hero {
     display: grid;

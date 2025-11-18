@@ -20,65 +20,106 @@ include_once("conexao.php");
 
     <style>
         body {
-            background: #f4f4f4;
+            background: #d4d4d4ff;
         }
 
-        .logout {
-            display: inline-block;
-            background: #060b22;
-            color: white;
-            padding: 8px 12px;
-            text-decoration: none;
+        select {
+            font-weight: 500;
+            font-size: 15px;
             border-radius: 5px;
-            float: right;
-            margin-bottom: 10px;
+            margin-top: 0px;
+            width: 100%;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .add-img {
+            font-weight: 500;
+            font-size: 15px;
+            border-radius: 5px;
+            margin-top: 0px;
+            width: 100%;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .input {
+            font-weight: 500;
+            font-size: 15px;
+            border-radius: 5px;
+        }
+
+        .btn-adicionar {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #060b22;
+            color: white;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-<?php include 'includes/header_admin.php'; ?>
+    <?php include 'includes/header_admin.php'; ?>
     <div class="admin-container">
-
-        <h1>Painel Administrativo</h1>
 
         <div class="admin-form">
             <h2>Adicionar Nova Moto ao Estoque</h2>
             <form action="cadastrar_moto.php" method="POST" enctype="multipart/form-data">
-                <div>
-                    <label for="marca">Marca:</label>
-                    <input type="text" id="marca" name="marca" required>
-                </div>
-                <div>
-                    <label for="modelo">Modelo:</label>
-                    <input type="text" id="modelo" name="modelo" required>
-                </div>
-                <div>
-                    <label for="ano">Ano:</label>
-                    <input type="number" id="ano" name="ano" required>
-                </div>
+                <div class="grid ">
+                    <div>
+                        <label for="marca">Marca:</label>
+                        <select type="select" id="marca" name="marca" required>
+                            <option>Insira a marca da moto.</option>
+                            <option>Yamaha</option>
+                            <option>Kawasaki</option>
+                            <option>Honda</option>
+                            <option>BMW</option>
+                            <option>Suzuki</option>
+                            <option>Harley-Davidson</option>
+                            <option>Triumph</option>
+                            <option>KTM</option>
+                            <option>Ducati</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="preco">Combustivel:</label>
+                        <select type="select" id="combustivel" name="combustivel" required>
+                            <option>Gasolina</option>
+                            <option>Flex</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modelo">Modelo:</label>
+                        <input class="input" type="text" id="modelo" name="modelo" required>
+                    </div>
+                    <div>
+                        <label for="ano">Ano:</label>
+                        <input class="input" type="number" id="ano" name="ano" required>
+                    </div>
 
-                <div>
-                    <label for="km">Quilometragem (KM):</label>
-                    <input type="number" id="km" name="km" required>
-                </div>
+                    <div>
+                        <label for="km">Quilometragem (KM):</label>
+                        <input class="input" type="number" id="km" name="km" required>
+                    </div>
 
-                <div>
-                    <label for="preco">Preço (R$):</label>
-                    <input type="text" id="preco" name="preco" placeholder="25000.00" required>
+                    <div>
+                        <label for="preco">Preço (R$):</label>
+                        <input class="input" type="text" id="preco" name="preco" placeholder="0" required>
+                    </div>
+                    <div>
+                        <label for="imagem">Foto da Moto:</label>
+                        <input class="add-img" type="file" id="imagem" name="imagem" accept="image/*" required>
+                    </div>
                 </div>
-
-                <div>
-                    <label for="imagem">Foto da Moto:</label>
-                    <input type="file" id="imagem" name="imagem" accept="image/*" required>
-                </div>
-
                 <button type="submit" class="btn-adicionar">Adicionar Moto</button>
             </form>
         </div>
-
         <h2>Gerenciar Estoque (Remover)</h2>
-
         <div class="grid">
 
             <?php
@@ -88,12 +129,12 @@ include_once("conexao.php");
 
             if ($result_motos->num_rows > 0) {
                 while ($moto = $result_motos->fetch_assoc()) {
-                    ?>
+            ?>
                     <article class="card">
 
                         <img src="<?php echo htmlspecialchars($moto['imagem']); ?>" alt="Moto">
 
-                        <h3><?php echo htmlspecialchars($moto['marca']); ?>         <?php echo htmlspecialchars($moto['modelo']); ?>
+                        <h3><?php echo htmlspecialchars($moto['marca']); ?> <?php echo htmlspecialchars($moto['modelo']); ?>
                         </h3>
 
                         <div class="meta" style="justify-content: flex-start; margin-top: 5px;">
@@ -112,7 +153,7 @@ include_once("conexao.php");
                             </a>
                         </div>
                     </article>
-                    <?php
+            <?php
                 } // Fim do while
             } else {
                 echo "<p>Nenhuma moto no estoque para gerenciar.</p>";

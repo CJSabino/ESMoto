@@ -9,10 +9,11 @@ include("conexao.php");
 
 // 2. Receber dados do formulário (via $_POST)
 $marca = $_POST['marca'];
+$combustivel = $_POST['combustivel'];
 $modelo = $_POST['modelo'];
 $ano = $_POST['ano'];
 $km = $_POST['km'];
-$preco = $_POST['preco']; // Nota: O preço deve ser digitado como '15000.00'
+$preco = $_POST['preco'];
 
 // 3. Lidar com o Upload da Imagem (via $_FILES)
 $target_dir = "uploads/"; // A pasta que você criou
