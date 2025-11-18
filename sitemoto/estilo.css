@@ -8,6 +8,9 @@
 html,
 body {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
         "Helvetica Neue", Arial;
     color: #1f2937;
@@ -69,6 +72,9 @@ header {
     text-decoration: underline;
 }
 
+main {
+    flex-grow: 1;
+}
 
 .footer-main {
     display: flex;
@@ -115,9 +121,7 @@ header {
 }
 
 .secao-sobre {
-    background: linear-gradient(90deg,
-            rgba(15, 23, 42, 1),
-            rgba(6, 11, 34, 1));
+    background: #3D4551;
     padding: 0 5%;
 }
 
@@ -133,7 +137,6 @@ header {
     gap: 20px;
 
 }
-
 
 .sobre-texto {
     flex: 1;
@@ -205,7 +208,52 @@ nav a {
     text-decoration: none;
 }
 
-/* ===== Hero ===== */
+/* Seção Admin */
+
+.admin-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.admin-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.admin-form div {
+    margin-bottom: 15px;
+}
+
+.admin-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.admin-form input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #0f172a;
+    box-sizing: border-box;
+}
+
+.btn-adicionar {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #060b22;
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* ===== Home ===== */
 .hero {
     display: grid;
     grid-template-columns: 1fr 420px;
@@ -224,28 +272,41 @@ nav a {
     color: var(--muted);
     margin-bottom: 18px;
 }
-
-.search {
+/* Busca */
+.search-bar {
     display: flex;
-    gap: 8px;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 999px; 
+    background: #fff;
+    padding-left: 20px;
+    padding-right: 8px;
+    width: 90%;
+    max-width: 450px;
+    margin: 0 auto 30px auto; 
 }
-
-.search input {
+.search-bar input {
     flex: 1;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.02);
-    color: white;
-}
-
-.search button {
-    padding: 12px 14px;
-    border-radius: 8px;
     border: none;
-    background: rgba(255, 255, 255, 0.06);
+    outline: none;
+    background: transparent;
+    
+    padding: 12px 0;
+    font-size: 16px;
+    color: #333;
+}
+.search-bar button {
+    border: none;
+    background: var(--accent);
     color: white;
     font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.search-bar button:hover {
+    background: #c2183b;
 }
 
 .hero-card {
@@ -263,22 +324,37 @@ nav a {
     display: block;
 }
 
-.price {
+
+.preco::before {
+    content: 'PREÇO:';
+    font-size: 14px;
+    position: absolute;
+    top: -15px;
+}
+
+.preco {
     font-weight: 800;
     font-size: 20px;
     color: var(--accent);
-    margin-top: 8px;
+    margin-top: 15px;
+    position: relative;
 }
 
-/* ===== Inventory grid ===== */
+.janela {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ===== Grid ===== */
 .section {
-    padding: 36px 0;
+    padding: 30px 0;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 }
 
 .card {
@@ -291,7 +367,7 @@ nav a {
 
 .card img {
     width: 100%;
-    height: 170px;
+    height: 250px;
     object-fit: cover;
     border-radius: 8px;
 }
@@ -353,7 +429,7 @@ footer {
 }
 
 @media (max-width: 600px) {
-    nav ul {
+    header nav ul {
         display: none;
     }
 
@@ -377,7 +453,7 @@ footer {
     display: inline-block;
     padding: 12px 20px;
     background-color: var(--accent);
-    /* mantém a cor rosa/vermelha */
+    /* mantém a cor vermelha */
     color: white;
     font-weight: 700;
     border-radius: 8px;
@@ -411,16 +487,15 @@ footer {
     margin-right: 8px;
 }
 
-/* ===== Modal styles ===== */
 .modal {
     display: none;
-    /* escondido por padrão */
     position: fixed;
     z-index: 999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
+    overflow: auto;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(2px);
 }
@@ -441,6 +516,14 @@ footer {
     animation: fadeIn 0.3s ease;
 }
 
+.modal-content img {
+    width: 100%;
+    height: 350px;
+    border-radius: 8px;
+    margin: 12px 0;
+    object-fit: contain;
+}
+
 .close {
     float: right;
     font-size: 24px;
@@ -450,6 +533,20 @@ footer {
 
 .close:hover {
     color: var(--accent);
+}
+
+.titulo-centro {
+    text-align: center; 
+}
+
+.btn-logout {
+    display: inline-block;
+    padding: 10px 10px;
+    background-color: #c90707;
+    color: white;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    font-family: inherit;
 }
 
 @keyframes fadeIn {

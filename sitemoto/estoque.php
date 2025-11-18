@@ -1,8 +1,20 @@
 <?php
 include("conexao.php");
 
-$sql = "SELECT * FROM motos";
-$result = $conn->query($sql);
+// Pesquisa
+if (isset($_GET['busca']) && !empty($_GET['busca'])) {
+  $termo_busca = $_GET['busca'];
+  $termo_like = "%" . $termo_busca . "%";
+  $sql = "SELECT * FROM motos WHERE marca LIKE ? OR modelo LIKE ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("ss", $termo_like, $termo_like);
+  $stmt->execute();
+  $result = $stmt->get_result();
+} else {
+  // Caso não buscar nada
+  $sql = "SELECT * FROM motos";
+  $result = $conn->query($sql);
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,186 +22,92 @@ $result = $conn->query($sql);
 
 <head>
   <meta charset="UTF-8">
-  <title>Estoque - Renatinho Motos</title>
-  <style>
-    /* ===== Page layout ===== */
-    header {
-      background: linear-gradient(90deg,
-          rgba(15, 23, 42, 1),
-          rgba(6, 11, 34, 1));
-      color: white;
-      padding: 18px 24px;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 56px;
-      height: 56px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--accent), #ff7ab6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      box-shadow: 0 6px 18px rgba(14, 18, 40, 0.6);
-    }
-
-    nav ul {
-      display: flex;
-      gap: 18px;
-      list-style: none;
-    }
-
-    nav a {
-      color: rgba(255, 255, 255, 0.9);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .cta {
-      background: var(--accent);
-      padding: 10px 14px;
-      border-radius: 8px;
-      color: white;
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 15px;
-      width: 250px;
-      text-align: center;
-    }
-
-    .card img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    .card h3 {
-      margin: 10px 0 5px;
-    }
-
-    .card p {
-      margin: 5px 0;
-    }
-
-    .price {
-      font-size: 18px;
-      font-weight: bold;
-      color: green;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title class="titulo-centro">Estoque</title>
+  <link rel='stylesheet' type='text/css' href='./estilo.css'>
 </head>
 
 <body>
-  <header>
-    <div class="container topbar">
-      <div class="brand">
-        <img
-          src="logorenato.jpg"
-          width="56"
-          height="56"
-          style="border-radius: 8px; object-fit: cover"
-          alt="Logo Renatinho Motos" />
-        <div>
-          <div style="font-weight: 800; font-size: 18px">Renatinho Motos</div>
-          <div
-            style="
-                font-size: 12px;
-                color: rgba(255, 255, 255, 0.6);
-                margin-top: 2px;
-              ">
-            Ourinhos · Compra e venda de motos
-          </div>
-        </div>
+  
+    <?php include 'includes/header.php'; ?>
+  
+  <h1 class="titulo-centro" style="padding: 10px">Estoque - CRJ Bikers</h1>
+  <!-- Busca -->
+  <form action="estoque.php" method="GET" class="search-bar">
+    <input type="text" name="busca" placeholder="Buscar por marca ou modelo...">
+    <button type="submit">Buscar</button>
+  </form>
+
+  <main class="container">
+    <section id="estoque" class="section">
+
+      <div class="grid">
+
+        <?php
+        if ($result->num_rows > 0) {
+          while ($moto = $result->fetch_assoc()) {
+
+            // Pega o ID único da moto. 
+            $moto_id = $moto['id'];
+            echo "<article class='card'>";
+            echo "<img src='" . $moto['imagem'] . "' alt='Imagem da moto'>";
+            echo "<h3>" . $moto['marca'] . " " . $moto['modelo'] . "</h3>";
+            echo "<p class='preco'>R$ " . number_format($moto['preco'], 2, ',', '.') . "</p>";
+
+            echo "<a class='btn-buy' href='javascript:void(0);' data-target='modal-" . $moto_id . "'>Ver anúncio</a>";
+            echo "<div id='modal-" . $moto_id . "' class='modal'>";
+            echo "<div class='modal-content'>";
+            echo "<span class='close'>&times;</span>";
+            echo "<h2>" . $moto['marca'] . " " . $moto['modelo'] . " - " . $moto['ano'] . "</h2>";
+            echo "<img src='" . $moto['imagem'] . "' alt='Imagem da moto'>";
+            echo "<p class='janela'>Ano: " . $moto['ano'] . "</p>";
+            echo "<p class='janela'>Quilometragem: " . $moto['km'] . " km" . "</p>";
+            echo "<p class='janela'>R$: " . number_format($moto['preco'], 2, ',', '.') . "</p>";
+            echo "<a href='https://wa.me/5514998920284?text=Olá! Tenho interesse na " . $moto['marca'] . " " . $moto['modelo'] . "' class='btn-whatsapp' target='_blank'>Chamar no WhatsApp</a>";
+            echo "</div>";
+            echo "</div>";
+            echo "</article>";
+          }
+        } else {
+          echo "<p style='text-align:center;'>Nenhuma moto cadastrada no estoque.</p>";
+        }
+        ?>
+
       </div>
-      <nav>
-        <ul>
-          <li><a href="home.html">Inicio</a></li>
-          <li><a href="#empresa">Empresa</a></li>
-        </ul>
-      </nav>
-      <a
-        href="https://wa.me/5514988199761?text=Olá! Gostaria de mais informações."
-        class="cta">Fale conosco</a>
-    </div>
-  </header>
-  <h1>Estoque - Renatinho Motos</h1>
-  <div class="container">
-    <?php
-    if ($result->num_rows > 0) {
-      while ($moto = $result->fetch_assoc()) {
-        echo "<div class='card'>";
-        echo "<img src='" . $moto['imagem'] . "' alt='Imagem da moto'>";
-        echo "<h3>" . $moto['marca'] . " " . $moto['modelo'] . "</h3>";
-        echo "<p>Ano: " . $moto['ano'] . "</p>";
-        echo "<p>KM: " . $moto['km'] . "</p>";
-        echo "<p class='price'>R$ " . number_format($moto['preco'], 2, ',', '.') . "</p>";
-        echo "</div>";
-      }
-    } else {
-      echo "<p style='text-align:center;'>Nenhuma moto cadastrada no estoque.</p>";
-    }
-    ?>
-  </div>
-  <footer class="container">
-    <div
-      style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 12px;
-        ">
-      <small>© 2025 Renatinho Motos — Todos os direitos reservados</small>
-      <div style="display: flex; gap: 12px">
-        <a href="#">Política de privacidade</a>
-        <a href="#">Termos</a>
-      </div>
-    </div>
-  </footer>
+    </section>
+  </main>
+
+  <?php include 'includes/footer.php'; ?>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const openButtons = document.querySelectorAll(".btn-buy");
+      const closeButtons = document.querySelectorAll(".modal .close");
+      openButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+          const targetModalId = button.getAttribute("data-target");
+          const modal = document.getElementById(targetModalId);
+          if (modal) {
+            modal.style.display = "block";
+          }
+        });
+      });
+      closeButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+          const modal = button.closest(".modal");
+          if (modal) {
+            modal.style.display = "none";
+          }
+        });
+      });
+      window.addEventListener("click", function(event) {
+        if (event.target.classList.contains("modal")) {
+          event.target.style.display = "none";
+        }
+      });
+
+    });
+  </script>
 </body>
 
 </html>
