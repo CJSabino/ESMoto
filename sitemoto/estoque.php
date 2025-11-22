@@ -47,29 +47,64 @@ if (isset($_GET['busca']) && !empty($_GET['busca'])) {
         if ($result->num_rows > 0) {
           while ($moto = $result->fetch_assoc()) {
 
-            // Pega o ID único da moto. 
             $moto_id = $moto['id'];
+            $cilindrada_show = isset($moto['cilindrada']) ? $moto['cilindrada'] . "cc" : "";
+
             echo "<article class='card'>";
             echo "<img src='" . $moto['imagem'] . "' alt='Imagem da moto'>";
             echo "<h3>" . $moto['marca'] . " " . $moto['modelo'] . "</h3>";
+
+            if ($cilindrada_show)
+              echo "<p style='font-size: 14px; color: #666; margin-top:-5px; margin-bottom:5px;'>" . $cilindrada_show . "</p>";
+
             echo "<p class='preco'>R$ " . number_format($moto['preco'], 2, ',', '.') . "</p>";
 
             echo "<a class='btn-buy' href='javascript:void(0);' data-target='modal-" . $moto_id . "'>Ver anúncio</a>";
+
+            // MODAL DA MOTO
             echo "<div id='modal-" . $moto_id . "' class='modal'>";
             echo "<div class='modal-content'>";
+
             echo "<span class='close'>&times;</span>";
-            echo "<h2>" . $moto['marca'] . " " . $moto['modelo'] . " - " . $moto['ano'] . "</h2>";
+            echo "<div class='modal-grid-layout'>";
+
+            //IMAGEM (Esquerda)
+            echo "<div class='modal-col-left'>";
             echo "<img src='" . $moto['imagem'] . "' alt='Imagem da moto'>";
-            echo "<p class='janela'>Ano: " . $moto['ano'] . "</p>";
-            echo "<p class='janela'>Quilometragem: " . $moto['km'] . " km" . "</p>";
-            echo "<p class='janela'>R$: " . number_format($moto['preco'], 2, ',', '.') . "</p>";
-            echo "<a href='https://wa.me/5514998920284?text=Olá! Tenho interesse na " . $moto['marca'] . " " . $moto['modelo'] . "' class='btn-whatsapp' target='_blank'>Chamar no WhatsApp</a>";
+            echo "</div>";
+
+            //INFORMAÇÕES (Direita)
+            echo "<div class='modal-col-right'>";
+
+            // Título
+            echo "<h2 class='modal-title'>" . $moto['marca'] . " " . $moto['modelo'] . " <small>" . $moto['ano'] . "</small></h2>";
+
+            // Grid de Especificações
+            echo "<div class='specs-grid'>";
+            echo "<div class='spec-item'><span class='label'>Ano</span><span class='value'>" . $moto['ano'] . "</span></div>";
+
+            if ($cilindrada_show) {
+              echo "<div class='spec-item'><span class='label'>Cilindrada</span><span class='value'>" . $cilindrada_show . "</span></div>";
+            }
+
+            echo "<div class='spec-item'><span class='label'>Quilometragem</span><span class='value'>" . $moto['km'] . " km</span></div>";
+            echo "</div>";
+            echo "<div class='modal-footer-info'>";
+            echo "<div class='modal-price-container'>";
+            echo "<span class='label'>Preço à vista</span>";
+            echo "<p class='modal-price'>R$ " . number_format($moto['preco'], 2, ',', '.') . "</p>";
+            echo "</div>";
+
+            echo "<a href='https://wa.me/5514998920284?text=Tenho interesse na " . $moto['marca'] . "' class='btn-whatsapp btn-modal-full' target='_blank'>Chamar no WhatsApp</a>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
             echo "</div>";
             echo "</div>";
             echo "</article>";
           }
         } else {
-          echo "<p style='text-align:center;'>Nenhuma moto cadastrada no estoque.</p>";
+          echo "<p style='text-align:center; width:100%;'>Nenhuma moto encontrada com esses filtros.</p>";
         }
         ?>
 

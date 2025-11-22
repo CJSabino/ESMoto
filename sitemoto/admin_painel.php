@@ -106,7 +106,10 @@ include_once("conexao.php");
                         <label for="km">Quilometragem (KM):</label>
                         <input class="input" type="number" id="km" name="km" required>
                     </div>
-
+                    <div>
+                        <label for="cilindrada">Cilindrada (cc):</label>
+                        <input type="number" id="cilindrada" name="cilindrada" placeholder="Ex: 160" required>
+                    </div>
                     <div>
                         <label for="preco">Preço (R$):</label>
                         <input class="input" type="text" id="preco" name="preco" placeholder="0" required>
@@ -129,19 +132,15 @@ include_once("conexao.php");
 
             if ($result_motos->num_rows > 0) {
                 while ($moto = $result_motos->fetch_assoc()) {
-            ?>
+                    ?>
                     <article class="card">
 
                         <img src="<?php echo htmlspecialchars($moto['imagem']); ?>" alt="Moto">
 
-                        <h3><?php echo htmlspecialchars($moto['marca']); ?> <?php echo htmlspecialchars($moto['modelo']); ?>
+                        <h3><?php echo htmlspecialchars($moto['marca']); ?>         <?php echo htmlspecialchars($moto['modelo']); ?>
                         </h3>
 
-                        <div class="meta" style="justify-content: flex-start; margin-top: 5px;">
-                            <small>KM: <?php echo htmlspecialchars($moto['km']); ?></small>
-                        </div>
-
-                        <p class="preco" style="position: relative; top: 0; margin-top: 5px; font-size: 18px;">
+                        <p class="preco" style="position: relative; top: 10px; margin-top: 5px; font-size: 18px;">
                             R$ <?php echo number_format($moto['preco'], 2, ',', '.'); ?>
                         </p>
 
@@ -153,7 +152,7 @@ include_once("conexao.php");
                             </a>
                         </div>
                     </article>
-            <?php
+                    <?php
                 } // Fim do while
             } else {
                 echo "<p>Nenhuma moto no estoque para gerenciar.</p>";

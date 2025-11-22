@@ -11,6 +11,7 @@ include("conexao.php");
 $marca = $_POST['marca'];
 $combustivel = $_POST['combustivel'];
 $modelo = $_POST['modelo'];
+$cilindrada = $_POST['cilindrada'];
 $ano = $_POST['ano'];
 $km = $_POST['km'];
 $preco = $_POST['preco'];
@@ -26,8 +27,8 @@ if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $target_file)) {
     $caminho_imagem_db = $target_file;
     
     // 4. Preparar e Executar o SQL (INSERT)
-    $stmt = $conn->prepare("INSERT INTO motos (marca, modelo, ano, km, preco, imagem) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssiids", $marca, $modelo, $ano, $km, $preco, $caminho_imagem_db);
+    $stmt = $conn->prepare("INSERT INTO motos (marca, modelo, cilindrada, ano, km, preco, imagem) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssiiids", $marca, $modelo, $cilindrada, $ano, $km, $preco, $caminho_imagem_db);
 
     if ($stmt->execute()) {
         // Sucesso! Redireciona de volta para o painel
