@@ -14,7 +14,7 @@
         <h3>Navegação</h3>
         <nav>
           <ul>
-            <li><a href="./empresa.html">Sobre Nós</a></li>
+            <li><a href="./empresa.php">Sobre Nós</a></li>
             <li><a href="#">Entre em Contato</a></li>
             <li><a href="estoque.php">Estoque</a></li>
           </ul>
