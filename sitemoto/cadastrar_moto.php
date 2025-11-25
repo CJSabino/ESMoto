@@ -1,58 +1,49 @@
 <?php
-// 1. Segurança
+// 1. Segurança: Verificar se o admin está logado
 session_start();
 if (!isset($_SESSION['admin_id'])) {
-    die("Acesso negado. Faça o login.");
+    die("Acesso negado. Faça o login."); // Encerra o script se não for admin
 }
 
-// IMPORTANTE: Este arquivo deve conter a conexão PDO com o Supabase
-include("conexao.php"); 
+include("conexao.php");
 
-// 2. Receber dados
+// 2. Receber dados do formulário (via $_POST)
 $marca = $_POST['marca'];
+$combustivel = $_POST['combustivel'];
 $modelo = $_POST['modelo'];
-$cilindrada = $_POST['cilindrada']; // Garante que a coluna existe no Supabase!
+$cilindrada = $_POST['cilindrada'];
 $ano = $_POST['ano'];
 $km = $_POST['km'];
 $preco = $_POST['preco'];
 
-// 3. Upload da Imagem (Isso continua salvando na pasta do seu site)
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["imagem"]["name"]);
+// 3. Lidar com o Upload da Imagem (via $_FILES)
+$target_dir = "uploads/"; // A pasta que você criou
+$target_file = $target_dir . basename($_FILES["imagem"]["name"]); // Caminho final: "uploads/nome-da-imagem.jpg"
+$uploadOk = 1;
 
+// Tentar mover o arquivo enviado (da pasta temporária do XAMPP para sua pasta 'uploads')
 if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $target_file)) {
+    // Se o upload deu certo, $target_file é o caminho que salvamos no banco
     $caminho_imagem_db = $target_file;
+    
+    // 4. Preparar e Executar o SQL (INSERT)
+    $stmt = $conn->prepare("INSERT INTO motos (marca, modelo, cilindrada, ano, km, preco, imagem) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssiiids", $marca, $modelo, $cilindrada, $ano, $km, $preco, $caminho_imagem_db);
 
-    try {
-        // 4. SQL (O comando é igual, mas a execução muda)
-        $sql = "INSERT INTO motos (marca, modelo, cilindrada, ano, km, preco, imagem) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
-        $stmt = $conn->prepare($sql);
-
-        // 5. EXECUÇÃO PDO (O jeito simples!)
-        // O PDO descobre automaticamente se é texto ou número.
-        // Basta passar as variáveis na ordem correta dentro dos colchetes [].
-        $stmt->execute([
-            $marca, 
-            $modelo, 
-            $cilindrada, 
-            $ano, 
-            $km, 
-            $preco, 
-            $caminho_imagem_db
-        ]);
-
-        // Sucesso!
+    if ($stmt->execute()) {
+        // Sucesso! Redireciona de volta para o painel
         header("Location: admin_painel.php?sucesso=1");
-
-    } catch (PDOException $e) {
-        // Erro do Supabase/Postgres
-        echo "Erro ao salvar no Supabase: " . $e->getMessage();
+    } else {
+        // Erro no SQL
+        echo "Erro ao salvar no banco de dados: " . $stmt->error;
     }
-
+    
+    $stmt->close();
+    
 } else {
-    echo "Desculpe, houve um erro ao fazer o upload da imagem para a pasta.";
+    // Erro no Upload
+    echo "Desculpe, houve um erro ao fazer o upload da sua imagem.";
 }
 
-// No PDO não é obrigatório fechar a conexão manualmente, o PHP faz isso.
+$conn->close();
 ?>
