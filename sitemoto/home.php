@@ -1,44 +1,33 @@
 <?php
-include("conexao.php"); // Deve conter a conexão PDO com Supabase
+include("conexao.php");
 
 try {
-    // 1. Consulta Base
     $sql = "SELECT * FROM motos WHERE 1=1";
-    $params = []; // Em PDO não precisamos de $tipos ("ssii")
+    $params = [];
 
-    // --- LÓGICA DOS FILTROS ---
 
-    // Marca (ILIKE é o LIKE do Postgres que ignora maiúscula/minúscula)
     if (isset($_GET['filtro_marca']) && !empty($_GET['filtro_marca'])) {
         $sql .= " AND marca ILIKE ?"; 
         $params[] = "%" . $_GET['filtro_marca'] . "%";
     }
 
-    // Modelo
     if (isset($_GET['filtro_modelo']) && !empty($_GET['filtro_modelo'])) {
         $sql .= " AND modelo ILIKE ?";
         $params[] = "%" . $_GET['filtro_modelo'] . "%";
     }
 
-    // Cilindrada
     if (isset($_GET['filtro_cc']) && !empty($_GET['filtro_cc'])) {
         $sql .= " AND cilindrada >= ?";
         $params[] = $_GET['filtro_cc'];
     }
 
-    // Ano
     if (isset($_GET['filtro_ano']) && !empty($_GET['filtro_ano'])) {
         $sql .= " AND ano = ?";
         $params[] = $_GET['filtro_ano'];
     }
 
-    // 2. Preparar e Executar (Jeito PDO)
     $stmt = $conn->prepare($sql);
-    
-    // Passamos o array de parâmetros direto no execute!
-    $stmt->execute($params);
-    
-    // Pegamos todos os resultados de uma vez
+    $stmt->execute($params); 
     $motos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
@@ -86,9 +75,7 @@ try {
 
       <div class="grid">
         <?php
-        // Verifica se tem resultados contando o array
         if (count($motos) > 0) {
-          // Loop foreach para percorrer o array
           foreach ($motos as $moto) {
 
             $moto_id = $moto['id'];
@@ -100,8 +87,6 @@ try {
             if($cilindrada_show) echo "<p style='font-size: 14px; color: #666; margin-top:-5px; margin-bottom:5px;'>" . $cilindrada_show . "</p>";
             echo "<p class='preco'>R$ " . number_format($moto['preco'], 2, ',', '.') . "</p>";
             echo "<a class='btn-buy' href='javascript:void(0);' data-target='modal-" . $moto_id . "'>Ver anúncio</a>";
-            
-            // MODAL (Seu código do modal vai aqui exatamente igual estava)
             echo "<div id='modal-" . $moto_id . "' class='modal'>";
             echo "<div class='modal-content'>";
             echo "<span class='close'>&times;</span>";
@@ -113,11 +98,11 @@ try {
             echo "<div class='spec-item'><span class='label'>Ano</span><span class='value'>" . $moto['ano'] . "</span></div>";
             if($cilindrada_show) echo "<div class='spec-item'><span class='label'>Cilindrada</span><span class='value'>" . $cilindrada_show . "</span></div>";
             echo "<div class='spec-item'><span class='label'>Quilometragem</span><span class='value'>" . $moto['km'] . " km</span></div>";
-            echo "</div>"; // fim specs
+            echo "</div>";
             echo "<div class='modal-footer-info'>";
             echo "<div class='modal-price-container'><span class='label'>Preço à vista</span><p class='modal-price'>R$ " . number_format($moto['preco'], 2, ',', '.') . "</p></div>";
             echo "<a href='https://wa.me/5514998920284?text=Tenho interesse na " . $moto['marca'] . "' class='btn-whatsapp btn-modal-full' target='_blank'>Chamar no WhatsApp</a>";
-            echo "</div></div></div></div></div>"; // Fechamento de divs
+            echo "</div></div></div></div></div>";
             echo "</article>";
           }
         } else {
@@ -145,13 +130,9 @@ try {
 
   <?php include 'includes/footer.php'; ?>
   <script>
-    // ... (Copie o script do arquivo anterior) ...
     document.addEventListener("DOMContentLoaded", function() {
-      // ... lógica dos modais ...
         const openButtons = document.querySelectorAll(".btn-buy");
         const closeButtons = document.querySelectorAll(".modal:not(#modal-filtro) .close");
-        // etc... (o JS não muda com o banco de dados)
-        // ... copie do código anterior ...
         const btnFiltro = document.getElementById("btn-abrir-filtro");
         const modalFiltro = document.getElementById("modal-filtro");
         const closeFiltro = document.querySelector(".close-filtro");

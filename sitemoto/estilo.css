@@ -367,7 +367,7 @@ nav a {
 
 .meta {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     margin-top: 8px;
 }
@@ -489,6 +489,39 @@ footer {
 
 .btn-filter:hover {
     background-color: #c2183b;
+}
+
+.btn-remover {
+    display: inline-block;
+    padding: 12px 20px;
+    margin-left: 20px;
+    background-color: var(--accent);
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-remover:hover {
+    background-color: #c2183b;
+}
+
+.btn-vendida {
+    display: inline-block;
+    padding: 12px 20px;
+    margin-left: 10px;
+    background-color: var(--accent);
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    background-color: #1ebe57;
+    transition: background-color 0.3s ease;
+}
+
+.btn-vendida:hover {
+    background-color: #34c218;
 }
 
 /* botao do whatsaap */

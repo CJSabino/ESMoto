@@ -1,21 +1,18 @@
 <?php
-include("conexao.php"); // Conexão PDO/Supabase
+include("conexao.php");
 
 try {
-    // 1. Consulta Base
+
     $sql = "SELECT * FROM motos WHERE 1=1";
     $params = [];
 
-    // 2. Busca Simples (Barra de pesquisa do estoque)
     if (isset($_GET['busca']) && !empty($_GET['busca'])) {
-        // ILIKE no Postgres é case-insensitive (melhor para busca)
         $sql .= " AND (marca ILIKE ? OR modelo ILIKE ?)";
         $busca = "%" . $_GET['busca'] . "%";
         $params[] = $busca;
         $params[] = $busca;
     }
 
-    // 3. Execução PDO
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
     $motos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -48,9 +45,7 @@ try {
     <section id="estoque" class="section">
       <div class="grid">
         <?php
-        // Verifica se tem resultados
         if (count($motos) > 0) {
-          // Loop foreach (PDO)
           foreach ($motos as $moto) {
 
             $moto_id = $moto['id'];
@@ -62,8 +57,6 @@ try {
             if ($cilindrada_show) echo "<p style='font-size: 14px; color: #666; margin-top:-5px; margin-bottom:5px;'>" . $cilindrada_show . "</p>";
             echo "<p class='preco'>R$ " . number_format($moto['preco'], 2, ',', '.') . "</p>";
             echo "<a class='btn-buy' href='javascript:void(0);' data-target='modal-" . $moto_id . "'>Ver anúncio</a>";
-
-            // MODAL DA MOTO (O HTML do modal é idêntico ao home.php)
             echo "<div id='modal-" . $moto_id . "' class='modal'>";
             echo "<div class='modal-content'>";
             echo "<span class='close'>&times;</span>";
@@ -93,7 +86,6 @@ try {
   <?php include 'includes/footer.php'; ?>
 
   <script>
-    // Seu JavaScript original dos modais
     document.addEventListener("DOMContentLoaded", function() {
       const openButtons = document.querySelectorAll(".btn-buy");
       const closeButtons = document.querySelectorAll(".modal .close");

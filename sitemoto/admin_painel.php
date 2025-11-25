@@ -1,14 +1,10 @@
 <?php
-// Inicia a sessão
 session_start();
-
-// Se o usuário NÃO ESTÁ logado, redireciona
 if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit;
 }
 
-// Inclui a conexão (QUE DEVE SER A VERSÃO PDO/SUPABASE)
 include_once("conexao.php");
 ?>
 
@@ -23,7 +19,6 @@ include_once("conexao.php");
     <style>
         body { background: #d4d4d4ff; }
         
-        /* Seus estilos originais mantidos */
         select, .add-img, .input {
             font-weight: 500;
             font-size: 15px;
@@ -33,7 +28,7 @@ include_once("conexao.php");
             height: 40px;
             box-sizing: border-box;
         }
-        .input { border: 1px solid #ccc; padding: 5px; } /* Adicionei borda para ficar visível */
+        .input { border: 1px solid #ccc; padding: 5px; }
         
         .btn-adicionar {
             display: inline-block;
@@ -100,7 +95,11 @@ include_once("conexao.php");
                         <input class="input" type="number" id="cilindrada" name="cilindrada" placeholder="Ex: 160" required>
                     </div>
                     <div>
-                        <label for="preco">Preço (R$):</label>
+    <label for="custo_compra">Preço de Compra (R$):</label>
+    <input class="input" type="text" id="custo_compra" name="custo_compra" placeholder="Ex: 15000.00" required>
+</div>
+                    <div>
+                        <label for="preco">Preço de venda(R$):</label>
                         <input class="input" type="text" id="preco" name="preco" placeholder="0.00" required>
                     </div>
                     <div>
@@ -117,19 +116,12 @@ include_once("conexao.php");
         <div class="grid">
             <?php
             try {
-                // 1. Query convertida para PDO
                 $sql = "SELECT id, marca, modelo, imagem, km, preco FROM motos ORDER BY id DESC";
-                
-                // Executa a query
                 $stmt = $conn->query($sql);
-                
-                // Pega todos os resultados em um array
                 $motos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                // 2. Verifica a quantidade com count() em vez de num_rows
                 if (count($motos) > 0) {
                     
-                    // 3. Loop foreach (Padrão do PDO)
                     foreach ($motos as $moto) {
             ?>
                         <article class="card">
@@ -144,18 +136,23 @@ include_once("conexao.php");
                                 R$ <?php echo number_format($moto['preco'], 2, ',', '.'); ?>
                             </p>
 
-                            <div class="meta" style="margin-top: 10px;"> 
-                                <small>ID: <?php echo $moto['id']; ?></small>
+                            <div class="meta" style="margin-top: 15px;">
 
                                 <a href="remover_moto.php?id=<?php echo $moto['id']; ?>" 
-                                   class="btn-filter"
+                                   class="btn-remover"
                                    onclick="return confirm('Tem certeza que deseja remover esta moto? A ação não pode ser desfeita.');">
                                     Remover
+                                </a>
+                                
+                                <a href="vendida_moto.php?id=<?php echo $moto['id']; ?>" 
+                                   class="btn-vendida"
+                                   onclick="return confirm('Tem certeza que deseja marcar esta moto como vendida?');">
+                                    Vendida
                                 </a>
                             </div>
                         </article>
             <?php
-                    } // Fim do foreach
+                    }
                 } else {
                     echo "<p>Nenhuma moto no estoque para gerenciar.</p>";
                 }

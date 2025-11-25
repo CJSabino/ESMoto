@@ -10,16 +10,14 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     try {
-        // 1. Buscar a imagem para deletar do servidor
         $stmt = $conn->prepare("SELECT imagem FROM motos WHERE id = ?");
         $stmt->execute([$id]);
         $moto = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($moto && !empty($moto['imagem']) && file_exists($moto['imagem'])) {
-            unlink($moto['imagem']); // Deleta o arquivo da pasta
+            unlink($moto['imagem']);
         }
 
-        // 2. Deletar do Banco de Dados
         $stmt_del = $conn->prepare("DELETE FROM motos WHERE id = ?");
         $stmt_del->execute([$id]);
 
