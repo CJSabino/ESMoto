@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['moto_venda'])) {
 
 include_once("conexao.php");
 $moto = $_SESSION['moto_venda'];
-$preco_sugerido = number_format($moto['preco'], 2, '.', ''); 
+$preco_sugerido = number_format($moto['preco'], 2, '.', '');
 $erro = null;
 
 
@@ -21,13 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $comprador = filter_input(INPUT_POST, 'comprador', FILTER_SANITIZE_STRING);
     $cpf_comprador = filter_input(INPUT_POST, 'cpf_comprador', FILTER_SANITIZE_STRING);
     $vendedor = filter_input(INPUT_POST, 'vendedor', FILTER_SANITIZE_STRING);
-    
+
     if ($preco_venda === false || $custo_compra === false || $preco_venda <= 0) {
         $erro = "Preço de Venda ou Custo de Compra são inválidos.";
     } else {
-        
+
         $data_venda = date('Y-m-d H:i:s');
-        
+
         $conn->beginTransaction();
 
         try {
@@ -64,17 +64,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Registrar Venda</title>
     <link rel="stylesheet" href="estilo.css">
+    <style>
+        select,
+        .add-img,
+        .input {
+            font-weight: 500;
+            font-size: 15px;
+            border-radius: 5px;
+            margin-top: 0px;
+            width: 100%;
+            height: 40px;
+            box-sizing: border-box;
+        }
+        form {
+            margin-top: 10px;
+        }
+        .input {
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+    </style>
 </head>
+
 <body>
-    <?php include 'includes/header_admin.php';?>
+    <?php include 'includes/header_admin.php'; ?>
     <div class="admin-container">
         <h2>Venda de 🏍️ <?php echo htmlspecialchars($moto['marca'] . " " . $moto['modelo']); ?></h2>
         <p>Preencha os dados da venda para remover do estoque e registrar no relatório.</p>
-        
+
         <?php if ($erro): ?>
             <p style='color:red; background: #ffe6e6; padding: 10px; border-radius: 5px;'><?php echo $erro; ?></p>
         <?php endif; ?>
@@ -83,7 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="grid">
                 <div>
                     <label for="preco_venda">Preço de Venda (R$):</label>
-                    <input class="input" type="text" id="preco_venda" name="preco_venda" value="<?php echo $preco_sugerido; ?>" required>
+                    <input class="input" type="text" id="preco_venda" name="preco_venda"
+                        value="<?php echo $preco_sugerido; ?>" required>
                 </div>
                 <div>
                     <label for="comprador">Comprador:</label>
@@ -91,15 +114,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div>
                     <label for="cpf_comprador">CPF do Comprador:</label>
-                    <input class="input" type="text" id="cpf_comprador" name="cpf_comprador" required>
+                    <input class="input" type="text" id="cpf_comprador" name="cpf_comprador" placeholder="Ex: 12345678910" required>
                 </div>
                 <div>
                     <label for="vendedor">Vendedor:</label>
-                    <input class="input" type="text" id="vendedor" name="vendedor" value="<?php echo $_SESSION['admin_nome'] ?? 'Admin'; ?>" required>
+                    <input class="input" type="text" id="vendedor" name="vendedor"
+                        value="<?php echo $_SESSION['admin_nome'] ?? 'Admin'; ?>" required>
                 </div>
             </div>
-            <button type="submit" class="btn-adicionar">Confirmar Venda e Remover do Estoque</button>
+            <button type="submit" class="btn-relatorio">Confirmar Venda e Remover do Estoque</button>
         </form>
     </div>
 </body>
+
 </html>

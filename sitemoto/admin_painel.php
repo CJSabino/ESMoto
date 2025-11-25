@@ -17,9 +17,13 @@ include_once("conexao.php");
     <link rel="stylesheet" href="estilo.css">
 
     <style>
-        body { background: #d4d4d4ff; }
-        
-        select, .add-img, .input {
+        body {
+            background: #d4d4d4ff;
+        }
+
+        select,
+        .add-img,
+        .input {
             font-weight: 500;
             font-size: 15px;
             border-radius: 5px;
@@ -28,31 +32,22 @@ include_once("conexao.php");
             height: 40px;
             box-sizing: border-box;
         }
-        .input { border: 1px solid #ccc; padding: 5px; }
-        
-        .btn-adicionar {
-            display: inline-block;
-            padding: 12px 20px;
-            background-color: #060b22;
-            color: white;
-            font-weight: 700;
-            border-radius: 8px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            margin-top: 15px;
+
+        .input {
+            border: 1px solid #ccc;
+            padding: 5px;
         }
     </style>
 </head>
 
 <body>
     <?php include 'includes/header_admin.php'; ?>
-    
+
     <div class="admin-container">
 
         <div class="admin-form">
             <h2>Adicionar Nova Moto ao Estoque</h2>
-            
+
             <form action="cadastrar_moto.php" method="POST" enctype="multipart/form-data">
                 <div class="grid">
                     <div>
@@ -92,12 +87,14 @@ include_once("conexao.php");
                     </div>
                     <div>
                         <label for="cilindrada">Cilindrada (cc):</label>
-                        <input class="input" type="number" id="cilindrada" name="cilindrada" placeholder="Ex: 160" required>
+                        <input class="input" type="number" id="cilindrada" name="cilindrada" placeholder="Ex: 160"
+                            required>
                     </div>
                     <div>
-    <label for="custo_compra">Preço de Compra (R$):</label>
-    <input class="input" type="text" id="custo_compra" name="custo_compra" placeholder="Ex: 15000.00" required>
-</div>
+                        <label for="custo_compra">Preço de Compra (R$):</label>
+                        <input class="input" type="text" id="custo_compra" name="custo_compra"
+                            placeholder="Ex: 15000.00" required>
+                    </div>
                     <div>
                         <label for="preco">Preço de venda(R$):</label>
                         <input class="input" type="text" id="preco" name="preco" placeholder="0.00" required>
@@ -112,7 +109,7 @@ include_once("conexao.php");
         </div>
 
         <h2>Gerenciar Estoque (Remover)</h2>
-        
+
         <div class="grid">
             <?php
             try {
@@ -121,14 +118,14 @@ include_once("conexao.php");
                 $motos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 if (count($motos) > 0) {
-                    
+
                     foreach ($motos as $moto) {
-            ?>
+                        ?>
                         <article class="card">
                             <img src="<?php echo htmlspecialchars($moto['imagem']); ?>" alt="Moto">
 
                             <h3>
-                                <?php echo htmlspecialchars($moto['marca']); ?> 
+                                <?php echo htmlspecialchars($moto['marca']); ?>
                                 <?php echo htmlspecialchars($moto['modelo']); ?>
                             </h3>
 
@@ -138,20 +135,18 @@ include_once("conexao.php");
 
                             <div class="meta" style="margin-top: 15px;">
 
-                                <a href="remover_moto.php?id=<?php echo $moto['id']; ?>" 
-                                   class="btn-remover"
-                                   onclick="return confirm('Tem certeza que deseja remover esta moto? A ação não pode ser desfeita.');">
+                                <a href="remover_moto.php?id=<?php echo $moto['id']; ?>" class="btn-remover"
+                                    onclick="return confirm('Tem certeza que deseja remover esta moto? A ação não pode ser desfeita.');">
                                     Remover
                                 </a>
-                                
-                                <a href="vendida_moto.php?id=<?php echo $moto['id']; ?>" 
-                                   class="btn-vendida"
-                                   onclick="return confirm('Tem certeza que deseja marcar esta moto como vendida?');">
+
+                                <a href="vendida_moto.php?id=<?php echo $moto['id']; ?>" class="btn-vendida"
+                                    onclick="return confirm('Tem certeza que deseja marcar esta moto como vendida?');">
                                     Vendida
                                 </a>
                             </div>
                         </article>
-            <?php
+                        <?php
                     }
                 } else {
                     echo "<p>Nenhuma moto no estoque para gerenciar.</p>";
@@ -163,4 +158,5 @@ include_once("conexao.php");
         </div>
     </div>
 </body>
+
 </html>

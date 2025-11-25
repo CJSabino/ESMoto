@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin_id'])) {
     exit;
 }
 
-include_once("conexao.php"); 
+include_once("conexao.php");
 
 $total_vendas = 0;
 $valor_total_vendido = 0;
@@ -29,15 +29,15 @@ try {
                         vendedor 
                      FROM vendas 
                      ORDER BY data_venda DESC";
-    
+
     $stmt_detalhes = $conn->query($sql_detalhes);
     $detalhes_vendas = $stmt_detalhes->fetchAll(PDO::FETCH_ASSOC);
 
     $total_vendas = count($detalhes_vendas);
     foreach ($detalhes_vendas as $venda) {
 
-        $valor_total_vendido += (float)$venda['preco_venda'];
-        $lucro_total += (float)$venda['lucro'];
+        $valor_total_vendido += (float) $venda['preco_venda'];
+        $lucro_total += (float) $venda['lucro'];
     }
 
 } catch (PDOException $e) {
@@ -45,24 +45,30 @@ try {
 }
 
 
-function formatar_moeda($valor) {
+function formatar_moeda($valor)
+{
     return "R$ " . number_format($valor, 2, ',', '.');
 }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Relatório de Vendas</title>
-
     <link rel="stylesheet" href="estilo.css">
+    <style>
+        td, th {
+            white-space: nowrap;   
+        }
+    </style>
 </head>
 
 <body>
-    <?php include 'includes/header_admin.php';?>
+    <?php include 'includes/header_admin.php'; ?>
     <div class="admin-container">
         <h2>📊 Relatório de Vendas</h2>
-        
+
         <?php if ($erro_relatorio): ?>
             <p style='color:red; background: #ffe6e6; padding: 10px; border-radius: 5px;'><?php echo $erro_relatorio; ?></p>
         <?php endif; ?>
@@ -84,9 +90,9 @@ function formatar_moeda($valor) {
                 <button class="btn-filter-admin">Filtrar</button>
             </div>
         </div>
-        
+
         <h3>Detalhes das Vendas</h3>
-        
+
         <table>
             <thead>
                 <tr>
@@ -94,8 +100,8 @@ function formatar_moeda($valor) {
                     <th>Data da Venda</th>
                     <th>Moto</th>
                     <th>Marca</th>
-                    <th>Valor Venda</th> 
-                    <th>Custo Compra</th> 
+                    <th>Valor Venda</th>
+                    <th>Custo Compra</th>
                     <th>Lucro</th>
                     <th>Comprador</th>
                     <th>CPF</th>
@@ -115,7 +121,7 @@ function formatar_moeda($valor) {
                             <td><?php echo formatar_moeda($venda['lucro']); ?></td>
                             <td><?php echo htmlspecialchars($venda['comprador']); ?></td>
                             <td><?php echo htmlspecialchars($venda['cpf_comprador']); ?></td>
-                            <td><?php echo htmlspecialchars($venda['vendedor']); ?></td> 
+                            <td><?php echo htmlspecialchars($venda['vendedor']); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -126,6 +132,7 @@ function formatar_moeda($valor) {
             </tbody>
         </table>
     </div>
-    <?php include 'includes/footer.php';?>
+    <?php include 'includes/footer.php'; ?>
 </body>
+
 </html>
