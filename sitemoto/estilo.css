@@ -793,7 +793,85 @@ footer {
     transform: translateY(-2px);
 }
 
+.btn-filter-admin {
+    display: inline-block;
+    width: 120px;
+    padding: 12px 20px;
+    background-color: var(--accent);
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
 
+.btn-filter-admin:hover {
+    background-color: #c2183b;
+}
+
+body {
+    background: #d4d4d4ff;
+    }
+
+    /* --- Estilos para a Página de Relatório de Vendas --- */
+
+/* Contêiner Principal */
+.admin-container {
+    padding: 20px;
+}
+
+/* Estilo para o Bloco de Resumo */
+.resumo-vendas {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #060b22; /* Azul escuro principal */
+    color: white;
+    border-radius: 8px;
+    display: flex; /* Para alinhar os itens lado a lado */
+    justify-content: space-around;
+    text-align: center;
+}
+
+/* Estilo para cada item dentro do resumo */
+.resumo-item h3 {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.resumo-item p {
+    margin: 0;
+    font-size: 16px;
+}
+
+/* Estilo da Tabela de Detalhes */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Remove o espaçamento entre bordas */
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden; /* Garante que a borda do contêiner seja respeitada */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Células da Tabela */
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Cabeçalho da Tabela */
+th {
+    background-color: #f2f2f2;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Linhas pares com um leve fundo para melhor leitura */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
 
 @keyframes fadeIn {
     from {
