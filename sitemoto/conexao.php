@@ -1,14 +1,22 @@
 <?php
-$servername = "localhost";
-$username = "root";  
-$password = "";    
-$dbname = "motos_es";
+// Credenciais do Supabase
+$host = "db.rfaeweinsjkcxjpnbyig.supabase.co"; // Pegue no painel do Supabase
+$port = "5432";
+$dbname = "postgres";
+$user = "postgres";
+$password = "CRJ2025";
 
-//Cria conexão
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // String de conexão (DSN)
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;";
+    
+    // Criando a conexão PDO
+    $conn = new PDO($dsn, $user, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Mostra erros
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // Traz arrays associativos
+    ]);
 
-//Verifica
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
+} catch (PDOException $e) {
+    die("Erro na conexão com Supabase: " . $e->getMessage());
 }
 ?>
