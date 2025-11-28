@@ -2,11 +2,11 @@
 
 date_default_timezone_set('America/Sao_Paulo');
 
-$host = "db.rfaeweinsjkcxjpnbyig.supabase.co";
-$port = "5432";
+$host = "";
+$port = "";
 $dbname = "postgres";
 $user = "postgres";
-$password = "CRJ2025";
+$password = "";
 
 try {
 
@@ -20,4 +20,5 @@ try {
 } catch (PDOException $e) {
     die("Erro na conexão com Supabase: " . $e->getMessage());
 }
+
 ?>
