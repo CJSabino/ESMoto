@@ -14,6 +14,9 @@ $km = $_POST['km'];
 $preco = $_POST['preco'];
 $custo_compra = $_POST['custo_compra'];
 $target_dir = "uploads/";
+if (!is_dir($target_dir)) {
+    mkdir($target_dir, 0777, true);
+}
 $target_file = $target_dir . basename($_FILES["imagem"]["name"]);
 
 if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $target_file)) {
