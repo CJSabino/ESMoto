@@ -41,6 +41,7 @@ Este projeto utiliza o **Supabase (PostgreSQL)** na nuvem, permitindo que os dad
     * Acesse no navegador: `http://localhost/ESMoto/sitemoto/home.php`
 
 4.  **Login de Admin (Padrão):**
+    * Acesse no navegador: `http://localhost/ESMoto/sitemoto/login.php`
     * Usuário: `admin` (exemplo)
     * Senha: (definiu no banco)
 ---
